@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title }} · {{ report_date }}</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --ink: #1a1f24;
+      --muted: #5c6670;
+      --line: #d9d2c6;
+      --tech: #0b6e4f;
+      --finance: #1d4e89;
+      --policy: #8c2f39;
+      --chip: #ece6dc;
+      --card: #fffdf9;
+      --accent: #9a3412;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Source Han Sans SC", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8efe9 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #e7eef6 0%, transparent 50%),
+        var(--bg);
+      line-height: 1.55;
+    }
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+    header {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    header h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.85rem;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .meta strong { color: var(--ink); font-weight: 600; }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin-top: 0.85rem;
+      font-size: 0.9rem;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    section h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      border-left: 4px solid var(--ink);
+      padding-left: 0.6rem;
+    }
+    section.tech h2 { border-color: var(--tech); color: var(--tech); }
+    section.finance h2 { border-color: var(--finance); color: var(--finance); }
+    section.policy h2 { border-color: var(--policy); color: var(--policy); }
+    section h2 .count {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .empty {
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 0.75rem 0.9rem;
+      background: var(--card);
+      border: 1px dashed var(--line);
+    }
+    article {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.65rem;
+    }
+    article h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.02rem;
+      font-weight: 650;
+      line-height: 1.4;
+    }
+    article h3 a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+    article h3 a:hover { text-decoration: underline; }
+    .row a.source-link,
+    .row a.article-link {
+      color: var(--finance);
+      text-decoration: none;
+      font-weight: 560;
+    }
+    .row a.source-link:hover,
+    .row a.article-link:hover { text-decoration: underline; }
+    .source-dir {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.85rem;
+      margin-top: 0.55rem;
+      padding: 0;
+      list-style: none;
+    }
+    .source-dir a {
+      color: var(--finance);
+      text-decoration: none;
+    }
+    .source-dir a:hover { text-decoration: underline; }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.75rem;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .chip {
+      display: inline-block;
+      background: var(--chip);
+      color: var(--ink);
+      padding: 0.1rem 0.45rem;
+      font-size: 0.75rem;
+      border: 1px solid var(--line);
+    }
+    .summary {
+      margin: 0;
+      font-size: 0.92rem;
+      color: #2c343c;
+    }
+    .digest {
+      margin: 0.55rem 0 0;
+      padding: 0.55rem 0.7rem;
+      background: #f3f6f8;
+      border-left: 3px solid var(--finance);
+      font-size: 0.92rem;
+      color: #243039;
+    }
+    .digest::before {
+      content: "概括 · ";
+      font-weight: 650;
+      color: var(--finance);
+    }
+    .highlights {
+      margin-bottom: 2.25rem;
+      padding: 1rem 1.1rem 1.15rem;
+      background: linear-gradient(180deg, #fff8f1 0%, var(--card) 100%);
+      border: 1px solid #e7d5c3;
+    }
+    .highlights > h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.25rem;
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+      padding-left: 0.6rem;
+    }
+    .highlights .lead {
+      margin: 0 0 0.9rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .highlights article {
+      border-color: #e7d5c3;
+      background: #fffdfb;
+    }
+    .comment {
+      margin: 0.55rem 0 0;
+      padding: 0.55rem 0.7rem;
+      background: #faf4ee;
+      border-left: 3px solid var(--accent);
+      font-size: 0.92rem;
+      color: #3a2f28;
+    }
+    .comment::before {
+      content: "短评 · ";
+      font-weight: 650;
+      color: var(--accent);
+    }
+    .pending {
+      margin: 0.55rem 0 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    footer ul {
+      margin: 0.4rem 0 0;
+      padding-left: 1.1rem;
+    }
+    @media print {
+      body { background: #fff; }
+      article { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>{{ title }}</h1>
+      <div class="meta">
+        报告日期 <strong>{{ report_date }}</strong>
+        · 检索窗口 <strong>{{ window_start }}</strong> — <strong>{{ window_end }}</strong>（{{ timezone_label }}）
+        · 生成于 {{ generated_at }}
+      </div>
+      <div class="stats">
+        <span>条目合计 <strong>{{ total_count }}</strong></span>
+        <span>源成功 {{ sources_ok }}/{{ sources_total }}</span>
+        {% if highlights %}
+        <span>精选短评 <strong>{{ highlights_commented }}/{{ highlights|length }}</strong></span>
+        {% endif %}
+      </div>
+    </header>
+
+    {% if highlights %}
+    <section class="highlights">
+      <h2>今日精选短评</h2>
+      <p class="lead">按主题相关性自动精选；每条含「概括」（客观复述主体）与「短评」（影响解读），无需跳转也可把握要点。</p>
+      {% for a in highlights %}
+      <article>
+        <h3><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></h3>
+        <div class="row">
+          {% if a.source_name %}
+          <span>来源：
+            {% if a.source_home %}
+            <a class="source-link" href="{{ a.source_home }}" target="_blank" rel="noopener noreferrer">{{ a.source_name }}</a>
+            {% else %}
+            {{ a.source_name }}
+            {% endif %}
+          </span>
+          {% endif %}
+          {% if a.url %}
+          <a class="article-link" href="{{ a.url }}" target="_blank" rel="noopener noreferrer">原文链接</a>
+          {% endif %}
+          <span>{{ a.published_at }}</span>
+          {% if a.category_label %}<span class="chip">{{ a.category_label }}</span>{% endif %}
+          {% if a.why %}<span class="chip">{{ a.why }}</span>{% endif %}
+          {% for tag in a.tags %}
+          <span class="chip">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% if a.digest %}
+        <p class="digest">{{ a.digest }}</p>
+        {% elif a.summary %}
+        <p class="digest">{{ a.summary }}</p>
+        {% else %}
+        <p class="pending">概括待补</p>
+        {% endif %}
+        {% if a.comment %}
+        <p class="comment">{{ a.comment }}</p>
+        {% else %}
+        <p class="pending">短评待补</p>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% for section in sections %}
+    <section class="{{ section.id }}">
+      <h2>{{ section.label }} <span class="count">{{ section.count }} 条</span></h2>
+      {% if section.articles %}
+        {% for a in section.articles %}
+        <article>
+          <h3><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></h3>
+          <div class="row">
+            {% if a.source_name %}
+            <span>来源：
+              {% if a.source_home %}
+              <a class="source-link" href="{{ a.source_home }}" target="_blank" rel="noopener noreferrer">{{ a.source_name }}</a>
+              {% else %}
+              {{ a.source_name }}
+              {% endif %}
+            </span>
+            {% endif %}
+            {% if a.url %}
+            <a class="article-link" href="{{ a.url }}" target="_blank" rel="noopener noreferrer">原文链接</a>
+            {% endif %}
+            <span>{{ a.published_at }}</span>
+            {% for tag in a.tags %}
+            <span class="chip">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% if a.summary %}
+          <p class="summary">{{ a.summary }}</p>
+          {% endif %}
+        </article>
+        {% endfor %}
+      {% else %}
+        <div class="empty">近 24h 无显著条目</div>
+      {% endif %}
+    </section>
+    {% endfor %}
+
+    {% if supplements %}
+    <section>
+      <h2>补充检索 <span class="count">{{ supplements|length }} 条</span></h2>
+      {% for a in supplements %}
+      <article>
+        <h3>
+          {% if a.url %}
+          <a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a>
+          {% else %}
+          {{ a.title }}
+          {% endif %}
+        </h3>
+        <div class="row">
+          {% if a.source_name %}
+          <span>来源：
+            {% if a.source_home %}
+            <a class="source-link" href="{{ a.source_home }}" target="_blank" rel="noopener noreferrer">{{ a.source_name }}</a>
+            {% else %}
+            {{ a.source_name }}
+            {% endif %}
+          </span>
+          {% endif %}
+          {% if a.url %}
+          <a class="article-link" href="{{ a.url }}" target="_blank" rel="noopener noreferrer">原文链接</a>
+          {% endif %}
+          {% if a.published_at %}<span>{{ a.published_at }}</span>{% endif %}
+          {% if a.category_label %}<span class="chip">{{ a.category_label }}</span>{% endif %}
+          {% for tag in a.tags or [] %}
+          <span class="chip">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% if a.summary %}
+        <p class="summary">{{ a.summary }}</p>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    <footer>
+      <div>本报告由 Qingting Daily Brief 自动聚合公开 RSS；可点击「来源」进入媒体站点，「原文链接」或标题进入单篇报道。</div>
+      {% if source_directory %}
+      <div style="margin-top:0.75rem"><strong>本次新闻来源</strong></div>
+      <ul class="source-dir">
+        {% for s in source_directory %}
+        <li>
+          {% if s.home %}
+          <a href="{{ s.home }}" target="_blank" rel="noopener noreferrer">{{ s.name }}</a>
+          {% else %}
+          {{ s.name }}
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if source_errors %}
+      <div style="margin-top:0.6rem">部分源拉取失败：</div>
+      <ul>
+        {% for err in source_errors %}
+        <li>{{ err.name }} — {{ err.error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </footer>
+  </div>
+</body>
+</html>

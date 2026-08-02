@@ -1,0 +1,241 @@
+# RSS sources for daily tech / finance / policy brief
+# region_tags: crypto | us | cn | hk | kr | jp | fx | gold | oil | policy | tech
+# default_category: tech | finance | policy
+
+sources:
+  # --- Crypto ---
+  - id: coindesk
+    name: CoinDesk
+    url: https://www.coindesk.com/arc/outboundfeeds/rss/
+    default_category: finance
+    region_tags: [crypto]
+
+  - id: cointelegraph
+    name: CoinTelegraph
+    url: https://cointelegraph.com/rss
+    default_category: finance
+    region_tags: [crypto]
+
+  - id: decrypt
+    name: Decrypt
+    url: https://decrypt.co/feed
+    default_category: finance
+    region_tags: [crypto]
+
+  - id: theblock
+    name: The Block
+    url: https://www.theblock.co/rss.xml
+    default_category: finance
+    region_tags: [crypto]
+
+  # --- US / Global markets ---
+  - id: yahoo-finance
+    name: Yahoo Finance
+    url: https://finance.yahoo.com/news/rssindex
+    default_category: finance
+    region_tags: [us, fx, gold, oil]
+
+  - id: cnbc-top
+    name: CNBC Top News
+    url: https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114
+    default_category: finance
+    region_tags: [us]
+
+  - id: cnbc-markets
+    name: CNBC Markets
+    url: https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258
+    default_category: finance
+    region_tags: [us, fx, gold, oil]
+
+  - id: marketwatch
+    name: MarketWatch
+    url: https://feeds.marketwatch.com/marketwatch/topstories/
+    default_category: finance
+    region_tags: [us]
+
+  - id: investing-commodities
+    name: Investing.com Commodities
+    url: https://www.investing.com/rss/news_301.rss
+    default_category: finance
+    region_tags: [gold, oil]
+
+  - id: investing-forex
+    name: Investing.com Forex
+    url: https://www.investing.com/rss/news_1.rss
+    default_category: finance
+    region_tags: [fx]
+
+  # --- Asia markets ---
+  - id: scmp-business
+    name: SCMP Business
+    url: https://www.scmp.com/rss/92/feed
+    default_category: finance
+    region_tags: [hk, cn]
+
+  - id: nikkei-asia
+    name: Nikkei Asia
+    url: https://asia.nikkei.com/rss/feed/nar
+    default_category: finance
+    region_tags: [jp, hk, cn, kr]
+
+  - id: korea-herald-business
+    name: Korea Herald Business
+    url: https://www.koreaherald.com/rss/business.xml
+    default_category: finance
+    region_tags: [kr]
+
+  - id: yahoo-hk
+    name: Yahoo Finance Hong Kong
+    url: https://hk.finance.yahoo.com/news/rssindex
+    default_category: finance
+    region_tags: [hk, cn]
+
+  # --- Tech ---
+  # A股等中文源若 RSS 不稳定，由 Agent Skill 补检索补充
+  - id: techcrunch
+    name: TechCrunch
+    url: https://techcrunch.com/feed/
+    default_category: tech
+    region_tags: [tech, us]
+
+  - id: theverge
+    name: The Verge
+    url: https://www.theverge.com/rss/index.xml
+    default_category: tech
+    region_tags: [tech]
+
+  - id: arstechnica
+    name: Ars Technica
+    url: https://feeds.arstechnica.com/arstechnica/index
+    default_category: tech
+    region_tags: [tech]
+
+  - id: wired
+    name: WIRED
+    url: https://www.wired.com/feed/rss
+    default_category: tech
+    region_tags: [tech]
+
+  - id: hn-frontpage
+    name: Hacker News
+    url: https://hnrss.org/frontpage
+    default_category: tech
+    region_tags: [tech]
+
+  # --- Policy / macro / regulation ---
+  - id: fed-press
+    name: Federal Reserve Press
+    url: https://www.federalreserve.gov/feeds/press_all.xml
+    default_category: policy
+    region_tags: [policy, us]
+
+  - id: sec-news
+    name: SEC Press Releases
+    url: https://www.sec.gov/news/pressreleases.rss
+    default_category: policy
+    region_tags: [policy, us, crypto]
+
+  - id: ecb-press
+    name: ECB Press
+    url: https://www.ecb.europa.eu/rss/press.html
+    default_category: policy
+    region_tags: [policy, fx]
+
+  - id: bis-speeches
+    name: BIS Speeches
+    url: https://www.bis.org/doclist/cbspeeches.rss
+    default_category: policy
+    region_tags: [policy]
+
+# Keyword overrides applied after source default_category
+classification:
+  policy_keywords:
+    - SEC
+    - CFTC
+    - Fed
+    - Federal Reserve
+    - ECB
+    - rate hike
+    - rate cut
+    - interest rate
+    - sanctions
+    - regulation
+    - regulatory
+    - 证监会
+    - 央行
+    - 加息
+    - 降息
+    - 制裁
+    - 监管
+    - 政策
+    - 关税
+    - tariff
+    - congress
+    - 财政部
+    - 国务院
+    - BOJ
+    - Bank of Japan
+    - Bank of Korea
+    - PBOC
+    - 人民银行
+
+  finance_keywords:
+    - Bitcoin
+    - BTC
+    - Ethereum
+    - crypto
+    - ETF
+    - Nasdaq
+    - Dow
+    - S&P
+    - stock
+    - equities
+    - forex
+    - FX
+    - USD
+    - CNY
+    - gold
+    - oil
+    - crude
+    - WTI
+    - Brent
+    - 美股
+    - 港股
+    - A股
+    - 韩股
+    - 日股
+    - 汇率
+    - 黄金
+    - 原油
+    - 比特币
+    - 加密
+
+  tech_keywords:
+    - AI
+    - artificial intelligence
+    - semiconductor
+    - chip
+    - GPU
+    - OpenAI
+    - Apple
+    - Google
+    - Microsoft
+    - Nvidia
+    - Tesla
+    - 半导体
+    - 芯片
+    - 人工智能
+
+# Map region_tags to Chinese labels shown in the report
+tag_labels:
+  crypto: 加密
+  us: 美股
+  cn: A股
+  hk: 港股
+  kr: 韩股
+  jp: 日股
+  fx: 汇率
+  gold: 黄金
+  oil: 原油
+  policy: 政策
+  tech: 科技

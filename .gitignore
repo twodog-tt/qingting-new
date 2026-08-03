@@ -8,5 +8,6 @@ venv/
 reports/*.html
 reports/*.json
 !reports/.gitkeep
+site/data/
 .pytest_cache/
 .mypy_cache/

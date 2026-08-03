@@ -195,6 +195,19 @@ def cmd_render(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_publish(args: argparse.Namespace) -> int:
+    from brief.publish import publish_site
+
+    return publish_site(
+        site_dir=Path(args.site),
+        hours=args.hours,
+        picks=args.picks,
+        keep_days=args.keep_days,
+        require_llm=not args.allow_without_llm,
+        config_path=Path(args.config) if args.config else None,
+    )
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="生成近 N 小时财经科技 HTML 日报")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -217,6 +230,19 @@ def build_parser() -> argparse.ArgumentParser:
     rnd.add_argument("--json", type=str, required=True, help="报告 JSON 路径")
     rnd.add_argument("--out", type=str, default=None, help="输出 HTML 路径")
     rnd.set_defaults(func=cmd_render)
+
+    pub = sub.add_parser("publish", help="生成日报并发布到 site/（GitHub Pages）")
+    pub.add_argument("--hours", type=float, default=24.0, help="时间窗口（小时），默认 24")
+    pub.add_argument("--picks", type=int, default=8, help="精选短评条数，默认 8")
+    pub.add_argument("--keep-days", type=int, default=7, help="归档保留天数，默认 7")
+    pub.add_argument("--site", type=str, default="site", help="站点输出目录，默认 site")
+    pub.add_argument("--config", type=str, default=None, help="sources.yaml 路径")
+    pub.add_argument(
+        "--allow-without-llm",
+        action="store_true",
+        help="允许无 LLM 短评时仍发布（默认要求 LLM）",
+    )
+    pub.set_defaults(func=cmd_publish)
 
     return parser
 

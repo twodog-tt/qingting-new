@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>近{{ count }}日归档 · 财经科技日报</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --ink: #1a1f24;
+      --muted: #5c6670;
+      --line: #d9d2c6;
+      --link: #1d4e89;
+      --card: #fffdf9;
+    }
+    body {
+      margin: 0;
+      font-family: "Source Han Sans SC", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8efe9 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #e7eef6 0%, transparent 50%),
+        var(--bg);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    h1 { margin: 0 0 0.35rem; font-size: 1.6rem; }
+    .meta { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.25rem; }
+    .site-nav { margin-bottom: 1.25rem; font-size: 0.9rem; color: var(--muted); }
+    .site-nav a { color: var(--link); text-decoration: none; font-weight: 560; }
+    .site-nav a:hover { text-decoration: underline; }
+    .site-nav .sep { margin: 0 0.35rem; color: #c4b8a8; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li {
+      background: var(--card);
+      border: 1px solid var(--line);
+      margin-bottom: 0.55rem;
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+    li a { color: var(--ink); text-decoration: none; font-weight: 650; }
+    li a:hover { color: var(--link); text-decoration: underline; }
+    .badge {
+      font-size: 0.75rem;
+      color: #9a3412;
+      border: 1px solid #e7d5c3;
+      background: #fff8f1;
+      padding: 0.1rem 0.45rem;
+    }
+    .empty { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="../index.html">今日日报</a>
+      <span class="sep">·</span>
+      <a href="./index.html">近7日归档</a>
+    </nav>
+    <h1>近 {{ count }} 日归档</h1>
+    <p class="meta">保留最近 7 天日报；最新一期同时发布在首页。</p>
+    {% if dates %}
+    <ul>
+      {% for d in dates %}
+      <li>
+        <a href="./{{ d }}.html">{{ d }} 财经科技日报</a>
+        {% if d == latest_date %}<span class="badge">最新</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty">暂无归档。</p>
+    {% endif %}
+  </div>
+</body>
+</html>

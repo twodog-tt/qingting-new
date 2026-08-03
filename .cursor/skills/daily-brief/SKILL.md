@@ -62,7 +62,8 @@ python -m brief generate --hours 24 --picks 8
 
 - Categories: 科技 / 金融 / 政策
 - Themes: 加密货币、美股、A股、港股、韩股、日股、汇率、黄金、原油及相关政策
-- Highlights: default top 8 with short comments (not every article)
+- Highlights: default top 8 with digest + short comments (not every article)
+- Pages publish: `python -m brief publish --keep-days 7` (requires LLM key by default)
 - No long essay / writing pipeline
 
 ## Failure handling

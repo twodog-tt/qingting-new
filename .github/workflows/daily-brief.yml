@@ -1,13 +1,15 @@
-name: Daily Brief Pages
+name: Deploy Pages
 
 on:
-  schedule:
-    # 每天北京时间 10:00 = UTC 02:00
-    - cron: "0 2 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/daily-brief.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -16,42 +18,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Publish site
-        env:
-          BRIEF_LLM_API_KEY: ${{ secrets.BRIEF_LLM_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          BRIEF_LLM_BASE_URL: ${{ secrets.BRIEF_LLM_BASE_URL }}
-          BRIEF_LLM_MODEL: ${{ secrets.BRIEF_LLM_MODEL }}
-          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
-          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
-        run: python -m brief publish --hours 24 --picks 8 --keep-days 7 --site site
-
-      - name: Commit site archives
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add site/
-          if git diff --staged --quiet; then
-            echo "No site changes to commit"
-          else
-            git commit -m "chore: publish daily brief $(TZ=Asia/Shanghai date +%F)"
-            git push
-          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -61,13 +35,6 @@ jobs:
         with:
           path: site
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

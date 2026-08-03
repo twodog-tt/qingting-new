@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Qingting Daily Brief — 每天本地 10:00（系统时区，当前为 CST）运行
+  安装: bash scripts/install_launchd.sh
+  卸载: bash scripts/uninstall_launchd.sh
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.twodog.qingting-daily</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/wangxintong/qingting-new/scripts/daily_publish.sh</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/wangxintong/qingting-new</string>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>10</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/wangxintong/qingting-new/logs/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/wangxintong/qingting-new/logs/launchd.err.log</string>
+</dict>
+</plist>

@@ -9,5 +9,6 @@ reports/*.html
 reports/*.json
 !reports/.gitkeep
 site/data/
+logs/
 .pytest_cache/
 .mypy_cache/

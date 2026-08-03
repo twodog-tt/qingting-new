@@ -30,33 +30,43 @@ export BRIEF_LLM_API_KEY=sk-...   # 或 OPENAI_API_KEY
 python -m brief publish --hours 24 --picks 8 --keep-days 7
 ```
 
-## GitHub Pages 部署
+## GitHub Pages 部署（推荐：本地定时 → 推送 → Pages）
 
-### 1. 仓库设置
+流程：本机每天 10:00 生成带 LLM 短评的日报 → 提交 `site/` → push → Actions 仅负责把 `site/` 部署到 Pages。
 
-1. **Settings → Pages → Build and deployment → Source**：选 **GitHub Actions**
-2. **Settings → Secrets and variables → Actions** 添加：
-
-| Secret | 必填 | 说明 |
-|--------|------|------|
-| `BRIEF_LLM_API_KEY` 或 `OPENAI_API_KEY` | 是 | OpenAI 兼容接口的 API Key（Pages 默认要有短评） |
-| `BRIEF_LLM_BASE_URL` / `OPENAI_BASE_URL` | 否 | 自定义兼容网关，默认 `https://api.openai.com/v1` |
-| `BRIEF_LLM_MODEL` / `OPENAI_MODEL` | 否 | 默认 `gpt-4o-mini` |
-
-### 2. 工作流
-
-[`.github/workflows/daily-brief.yml`](.github/workflows/daily-brief.yml)：
-
-- 定时：`cron: "0 2 * * *"`（UTC）= 北京时间每天 10:00
-- 也可在 Actions 里手动 **Run workflow**
-- 产出写入 `site/`（`index.html` + `archive/YYYY-MM-DD.html`），超过 7 天自动删
-- 将 `site/` 提交回仓库以便保留近 7 日归档，并部署到 Pages
-
-### 3. 本地等价命令
+### 1. 配置 API Key
 
 ```bash
-python -m brief publish --hours 24 --picks 8 --keep-days 7 --site site
+cp .env.example .env
+# 编辑 .env，填入 BRIEF_LLM_API_KEY
 ```
+
+### 2. 安装本地定时任务（macOS launchd）
+
+```bash
+bash scripts/install_launchd.sh
+```
+
+- 每天 **10:00**（系统时区，你当前为 CST）自动跑 `scripts/daily_publish.sh`
+- 日志在 `logs/`
+- 卸载：`bash scripts/uninstall_launchd.sh`
+
+也可手动跑一次：
+
+```bash
+bash scripts/daily_publish.sh
+```
+
+### 3. GitHub 设置
+
+1. **Settings → Pages → Source**：选 **GitHub Actions**
+2. 不再需要把 LLM Key 放进 GitHub Secrets（Key 只留在本地 `.env`）
+
+> 注意：到点时 Mac 需开机且未深度休眠；若经常关机，可改回云端 Actions 定时。
+
+### 备选：云端定时
+
+若改用 GitHub Actions 定时生成，需在 Secrets 配置 `BRIEF_LLM_API_KEY`，并把 workflow 改回 `schedule`（见仓库历史）。当前默认是 **push `site/` 后部署**。
 
 ## 报告结构
 

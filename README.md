@@ -32,7 +32,7 @@ python -m brief publish --hours 24 --picks 8 --keep-days 7
 
 ## GitHub Pages 部署（推荐：本地定时 → 推送 → Pages）
 
-流程：本机每天 10:00 生成带 LLM 短评的日报 → 提交 `site/` → push → Actions 仅负责把 `site/` 部署到 Pages。
+流程：本机每天 12:00 生成带 LLM 短评的日报 → 提交 `site/` → push → Actions 仅负责把 `site/` 部署到 Pages。
 
 ### 1. 配置 API Key
 
@@ -47,7 +47,7 @@ cp .env.example .env
 bash scripts/install_launchd.sh
 ```
 
-- 每天 **10:00**（系统时区，你当前为 CST）自动跑 `scripts/daily_publish.sh`
+- 每天 **12:00**（系统时区，你当前为 CST）自动跑 `scripts/daily_publish.sh`
 - 日志在 `logs/`
 - 卸载：`bash scripts/uninstall_launchd.sh`
 

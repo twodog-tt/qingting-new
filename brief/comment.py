@@ -70,7 +70,16 @@ def _parse_llm_json(content: str) -> dict[str, str]:
     return {"digest": "", "comment": cleaned}
 
 
-def generate_comment_llm(highlight: Highlight, client: httpx.Client, key: str, base: str, model: str) -> dict[str, str]:
+def generate_comment_llm(
+    highlight: Highlight,
+    client: httpx.Client,
+    key: str,
+    base: str,
+    model: str,
+    retries: int = 4,
+) -> dict[str, str]:
+    import time
+
     user = (
         f"分类：{highlight.article.category}\n"
         f"相关主题：{highlight.why}\n"
@@ -78,23 +87,46 @@ def generate_comment_llm(highlight: Highlight, client: httpx.Client, key: str, b
         f"来源：{highlight.article.source_name}\n"
         f"摘要：{highlight.article.summary or '（无摘要）'}\n"
     )
-    resp = client.post(
-        f"{base}/chat/completions",
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-        json={
-            "model": model,
-            "temperature": 0.4,
-            "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user},
-            ],
-        },
-        timeout=60.0,
+    last_exc: Exception | None = None
+    for attempt in range(retries):
+        try:
+            resp = client.post(
+                f"{base}/chat/completions",
+                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                json={
+                    "model": model,
+                    "temperature": 0.4,
+                    "messages": [
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user},
+                    ],
+                },
+                timeout=60.0,
+            )
+            if resp.status_code in {429, 500, 502, 503, 504}:
+                wait = 2 ** attempt
+                print(
+                    f"LLM HTTP {resp.status_code}, retry {attempt + 1}/{retries} in {wait}s…",
+                    flush=True,
+                )
+                time.sleep(wait)
+                continue
+            resp.raise_for_status()
+            data = resp.json()
+            content = data["choices"][0]["message"]["content"].strip()
+            return _parse_llm_json(content)
+        except (httpx.TimeoutException, httpx.TransportError) as exc:
+            last_exc = exc
+            wait = 2 ** attempt
+            print(f"LLM network error ({exc}), retry {attempt + 1}/{retries} in {wait}s…", flush=True)
+            time.sleep(wait)
+    if last_exc:
+        raise last_exc
+    raise httpx.HTTPStatusError(
+        "LLM unavailable after retries",
+        request=httpx.Request("POST", f"{base}/chat/completions"),
+        response=httpx.Response(503),
     )
-    resp.raise_for_status()
-    data = resp.json()
-    content = data["choices"][0]["message"]["content"].strip()
-    return _parse_llm_json(content)
 
 
 def attach_llm_comments(highlights: list[Highlight]) -> tuple[list[Highlight], str | None]:

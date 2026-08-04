@@ -18,7 +18,7 @@ launchctl bootstrap "gui/$(id -u)" "$DEST"
 launchctl enable "gui/$(id -u)/${LABEL}"
 
 echo "Installed LaunchAgent: $DEST"
-echo "Schedule: every day 10:00 (system timezone)"
+echo "Schedule: every day 12:00 (system timezone)"
 echo "Logs: $ROOT/logs/"
 if [[ ! -f "$ROOT/.env" ]]; then
   echo

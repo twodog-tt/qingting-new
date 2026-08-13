@@ -28,6 +28,30 @@ sources:
     default_category: finance
     region_tags: [crypto]
 
+  - id: blockworks
+    name: Blockworks
+    url: https://blockworks.co/feed
+    default_category: finance
+    region_tags: [crypto]
+
+  - id: bitcoin-magazine
+    name: Bitcoin Magazine
+    url: https://bitcoinmagazine.com/.rss/full/
+    default_category: finance
+    region_tags: [crypto]
+
+  - id: beincrypto
+    name: BeInCrypto
+    url: https://beincrypto.com/feed/
+    default_category: finance
+    region_tags: [crypto]
+
+  - id: cryptoslate
+    name: CryptoSlate
+    url: https://cryptoslate.com/feed/
+    default_category: finance
+    region_tags: [crypto]
+
   # --- US / Global markets ---
   - id: yahoo-finance
     name: Yahoo Finance
@@ -47,9 +71,75 @@ sources:
     default_category: finance
     region_tags: [us, fx, gold, oil]
 
+  - id: cnbc-world
+    name: CNBC World
+    url: https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362
+    default_category: finance
+    region_tags: [us, cn, hk, jp, kr]
+
   - id: marketwatch
     name: MarketWatch
     url: https://feeds.marketwatch.com/marketwatch/topstories/
+    default_category: finance
+    region_tags: [us]
+
+  - id: bloomberg-markets
+    name: Bloomberg Markets
+    url: https://feeds.bloomberg.com/markets/news.rss
+    default_category: finance
+    region_tags: [us, fx, gold, oil]
+
+  - id: wsj-markets
+    name: WSJ Markets
+    url: https://feeds.a.dj.com/rss/RSSMarketsMain.xml
+    default_category: finance
+    region_tags: [us, fx, gold, oil]
+
+  - id: nyt-business
+    name: NYT Business
+    url: https://rss.nytimes.com/services/xml/rss/nyt/Business.xml
+    default_category: finance
+    region_tags: [us]
+
+  - id: bbc-business
+    name: BBC Business
+    url: https://feeds.bbci.co.uk/news/business/rss.xml
+    default_category: finance
+    region_tags: [us, fx, oil]
+
+  - id: guardian-business
+    name: The Guardian Business
+    url: https://www.theguardian.com/uk/business/rss
+    default_category: finance
+    region_tags: [us, fx, oil]
+
+  - id: ft
+    name: Financial Times
+    url: https://www.ft.com/?format=rss
+    default_category: finance
+    region_tags: [us, cn, hk, fx]
+
+  - id: economist-fe
+    name: The Economist Finance
+    url: https://www.economist.com/finance-and-economics/rss.xml
+    default_category: finance
+    region_tags: [us, fx, policy]
+
+  - id: nasdaq-markets
+    name: Nasdaq Markets
+    url: https://www.nasdaq.com/feed/rssoutbound?category=Markets
+    default_category: finance
+    region_tags: [us]
+
+  - id: seeking-alpha
+    name: Seeking Alpha
+    url: https://seekingalpha.com/market_currents.xml
+    default_category: finance
+    region_tags: [us]
+
+  - id: fox-business
+    name: Fox Business
+    url: https://moxie.foxbusiness.com/google-publisher/latest.xml
     default_category: finance
     region_tags: [us]
 
@@ -62,6 +152,24 @@ sources:
   - id: investing-forex
     name: Investing.com Forex
     url: https://www.investing.com/rss/news_1.rss
+    default_category: finance
+    region_tags: [fx]
+
+  - id: investing-stock
+    name: Investing.com Stock Market
+    url: https://www.investing.com/rss/news_25.rss
+    default_category: finance
+    region_tags: [us]
+
+  - id: oilprice
+    name: OilPrice
+    url: https://oilprice.com/rss/main
+    default_category: finance
+    region_tags: [oil, gold]
+
+  - id: fxstreet
+    name: FXStreet
+    url: https://www.fxstreet.com/rss
     default_category: finance
     region_tags: [fx]
 
@@ -90,8 +198,19 @@ sources:
     default_category: finance
     region_tags: [hk, cn]
 
+  - id: japan-times
+    name: Japan Times
+    url: https://www.japantimes.co.jp/feed/
+    default_category: finance
+    region_tags: [jp]
+
+  - id: sixthtone
+    name: Sixth Tone
+    url: https://www.sixthtone.com/rss
+    default_category: finance
+    region_tags: [cn]
+
   # --- Tech ---
-  # A股等中文源若 RSS 不稳定，由 Agent Skill 补检索补充
   - id: techcrunch
     name: TechCrunch
     url: https://techcrunch.com/feed/
@@ -122,6 +241,42 @@ sources:
     default_category: tech
     region_tags: [tech]
 
+  - id: bbc-technology
+    name: BBC Technology
+    url: https://feeds.bbci.co.uk/news/technology/rss.xml
+    default_category: tech
+    region_tags: [tech]
+
+  - id: guardian-tech
+    name: The Guardian Technology
+    url: https://www.theguardian.com/uk/technology/rss
+    default_category: tech
+    region_tags: [tech]
+
+  - id: nyt-tech
+    name: NYT Technology
+    url: https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml
+    default_category: tech
+    region_tags: [tech, us]
+
+  - id: cnbc-tech
+    name: CNBC Technology
+    url: https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910
+    default_category: tech
+    region_tags: [tech, us]
+
+  - id: mit-tech-review
+    name: MIT Technology Review
+    url: https://www.technologyreview.com/feed/
+    default_category: tech
+    region_tags: [tech]
+
+  - id: forbes-innovation
+    name: Forbes Innovation
+    url: https://www.forbes.com/innovation/feed2/
+    default_category: tech
+    region_tags: [tech, us]
+
   # --- Policy / macro / regulation ---
   - id: fed-press
     name: Federal Reserve Press
@@ -146,6 +301,24 @@ sources:
     url: https://www.bis.org/doclist/cbspeeches.rss
     default_category: policy
     region_tags: [policy]
+
+  - id: whitehouse
+    name: White House News
+    url: https://www.whitehouse.gov/news/feed/
+    default_category: policy
+    region_tags: [policy, us]
+
+  - id: boe-news
+    name: Bank of England News
+    url: https://www.bankofengland.co.uk/rss/news
+    default_category: policy
+    region_tags: [policy, fx]
+
+  - id: boj
+    name: Bank of Japan
+    url: https://www.boj.or.jp/en/rss/whatsnew.xml
+    default_category: policy
+    region_tags: [policy, jp, fx]
 
 # Keyword overrides applied after source default_category
 classification:
@@ -176,8 +349,11 @@ classification:
     - BOJ
     - Bank of Japan
     - Bank of Korea
+    - Bank of England
     - PBOC
     - 人民银行
+    - White House
+    - Treasury
 
   finance_keywords:
     - Bitcoin
